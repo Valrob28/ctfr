@@ -11,4 +11,15 @@ export interface TwitterData {
   lastTweet: string
 }
 
+export interface Tweet {
+  id: string
+  text: string
+  created_at: string
+  public_metrics?: {
+    retweet_count: number
+    like_count: number
+    reply_count: number
+  }
+}
+
 export type VoteCategory = 'bestCall' | 'worstCall' | 'sma'

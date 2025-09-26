@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { TwitterService } from '@/utils/twitterService'
+import { TweetDropdown } from './TweetDropdown'
 
 interface TwitterCardProps {
   handle: string
@@ -52,35 +53,41 @@ export function TwitterCard({ handle, refreshKey }: TwitterCardProps) {
   }
 
   return (
-    <div className="flex items-start space-x-3">
-      <img
-        src={twitterData.avatar}
-        alt={`Avatar de ${handle}`}
-        className="w-10 h-10 rounded-full border-2 border-white/20 hover:border-solana-purple transition-colors flex-shrink-0"
-        onError={(e) => {
-          // Fallback si l'image ne charge pas
-          const target = e.target as HTMLImageElement
-          const fallbackUrl = `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
-          console.log(`Erreur de chargement avatar pour @${handle}, fallback vers:`, fallbackUrl)
-          target.src = fallbackUrl
-        }}
-        onLoad={() => {
-          console.log(`Avatar chargé avec succès pour @${handle}`)
-        }}
-      />
-      <div className="flex-1 min-w-0">
-        <div className="text-xs text-gray-400 mb-1">
-          Dernier tweet de @{handle}
-        </div>
-        <div className="text-xs text-gray-300 leading-relaxed hover:text-white transition-colors cursor-pointer"
-             title={twitterData.lastTweet}
-             onClick={() => window.open(`https://twitter.com/${handle}`, '_blank')}>
-          {twitterData.lastTweet}
-        </div>
-        <div className="text-xs text-gray-500 mt-1">
-          Cliquez pour voir le profil
+    <div className="space-y-3">
+      {/* Avatar et dernier tweet */}
+      <div className="flex items-start space-x-3">
+        <img
+          src={twitterData.avatar}
+          alt={`Avatar de ${handle}`}
+          className="w-10 h-10 rounded-full border-2 border-white/20 hover:border-solana-purple transition-colors flex-shrink-0"
+          onError={(e) => {
+            // Fallback si l'image ne charge pas
+            const target = e.target as HTMLImageElement
+            const fallbackUrl = `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
+            console.log(`Erreur de chargement avatar pour @${handle}, fallback vers:`, fallbackUrl)
+            target.src = fallbackUrl
+          }}
+          onLoad={() => {
+            console.log(`Avatar chargé avec succès pour @${handle}`)
+          }}
+        />
+        <div className="flex-1 min-w-0">
+          <div className="text-xs text-gray-400 mb-1">
+            Dernier tweet de @{handle}
+          </div>
+          <div className="text-xs text-gray-300 leading-relaxed hover:text-white transition-colors cursor-pointer"
+               title={twitterData.lastTweet}
+               onClick={() => window.open(`https://twitter.com/${handle}`, '_blank')}>
+            {twitterData.lastTweet}
+          </div>
+          <div className="text-xs text-gray-500 mt-1">
+            Cliquez pour voir le profil
+          </div>
         </div>
       </div>
+
+      {/* Liste déroulante des tweets */}
+      <TweetDropdown handle={handle} refreshKey={refreshKey} />
     </div>
   )
 }
