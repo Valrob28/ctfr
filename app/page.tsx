@@ -8,7 +8,6 @@ import { LeaderboardCard } from '@/components/LeaderboardCard'
 import { Header } from '@/components/Header'
 import { CategoryFilter } from '@/components/CategoryFilter'
 import { RefreshButton } from '@/components/RefreshButton'
-import { AvatarTest } from '@/components/AvatarTest'
 import { TwitterAuth } from '@/components/TwitterAuth'
 import { VoteSync } from '@/components/VoteSync'
 import { useTwitterRefresh } from '@/hooks/useTwitterRefresh'
@@ -107,7 +106,6 @@ export default function Home() {
                     />
                     <CategoryFilter onFilterChange={handleCategoryFilter} />
                     <RefreshButton onRefresh={refreshTwitterData} />
-                    <AvatarTest />
                   </div>
                 )}
 

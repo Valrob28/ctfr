@@ -45,11 +45,10 @@ export function LeaderboardCard({
       return
     }
 
-    // Vérifier l'authentification Twitter
-    if (!requireAuth()) {
-      alert('Connexion Twitter requise pour voter. Connectez-vous d\'abord avec votre compte Twitter.')
-      return
-    }
+    // Twitter est optionnel - générer un ID de vote unique si pas connecté
+    const voteId = isAuthenticated && twitterHandle 
+      ? `twitter_${twitterHandle}_${Date.now()}`
+      : `anonymous_${publicKey.toString().slice(0, 8)}_${Date.now()}`
 
     setIsVoting(true)
     try {
@@ -59,7 +58,7 @@ export function LeaderboardCard({
         signTransaction,
         influencer.name,
         category,
-        twitterHandle // Passer le handle Twitter pour la synchronisation
+        voteId // Passer l'ID de vote unique
       )
       
       setVoteStatus(prev => ({ ...prev, [category]: true }))
@@ -112,11 +111,11 @@ export function LeaderboardCard({
           />
           <VoteButton
             onClick={() => handleVote('bestCall')}
-            disabled={!isConnected || !isAuthenticated || isVoting || voteStatus.bestCall}
+            disabled={!isConnected || isVoting || voteStatus.bestCall}
             loading={isVoting}
             variant="success"
           >
-            {!isAuthenticated ? 'Twitter requis' : voteStatus.bestCall ? 'Voté ✅' : 'Voter'}
+            {voteStatus.bestCall ? 'Voté ✅' : 'Voter'}
           </VoteButton>
         </div>
 
@@ -135,11 +134,11 @@ export function LeaderboardCard({
           />
           <VoteButton
             onClick={() => handleVote('worstCall')}
-            disabled={!isConnected || !isAuthenticated || isVoting || voteStatus.worstCall}
+            disabled={!isConnected || isVoting || voteStatus.worstCall}
             loading={isVoting}
             variant="danger"
           >
-            {!isAuthenticated ? 'Twitter requis' : voteStatus.worstCall ? 'Voté ❌' : 'Voter'}
+            {voteStatus.worstCall ? 'Voté ❌' : 'Voter'}
           </VoteButton>
         </div>
 
@@ -158,11 +157,11 @@ export function LeaderboardCard({
           />
           <VoteButton
             onClick={() => handleVote('sma')}
-            disabled={!isConnected || !isAuthenticated || isVoting || voteStatus.sma}
+            disabled={!isConnected || isVoting || voteStatus.sma}
             loading={isVoting}
             variant="warning"
           >
-            {!isAuthenticated ? 'Twitter requis' : voteStatus.sma ? 'Voté 🤡' : 'Voter'}
+            {voteStatus.sma ? 'Voté 🤡' : 'Voter'}
           </VoteButton>
         </div>
       </div>
