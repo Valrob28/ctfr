@@ -88,11 +88,11 @@ export function LeaderboardCard({
       </div>
 
       <div className="space-y-4">
-        {/* Best Call */}
+        {/* Meilleure Prédiction */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-green-400 font-medium flex items-center">
-              ✅ Best Call
+              ✅ Meilleure Prédiction
             </span>
             <span className="text-white font-bold">{influencer.bestCall}</span>
           </div>
@@ -111,11 +111,11 @@ export function LeaderboardCard({
           </VoteButton>
         </div>
 
-        {/* Worst Call */}
+        {/* Pire Prédiction */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-red-400 font-medium flex items-center">
-              ❌ Worst Call
+              ❌ Pire Prédiction
             </span>
             <span className="text-white font-bold">{influencer.worstCall}</span>
           </div>
@@ -134,11 +134,11 @@ export function LeaderboardCard({
           </VoteButton>
         </div>
 
-        {/* SMA */}
+        {/* Plus Gros SMA */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-purple-400 font-medium flex items-center">
-              🤡 Biggest SMA
+              🤡 Plus Gros SMA
             </span>
             <span className="text-white font-bold">{influencer.sma}</span>
           </div>

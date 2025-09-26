@@ -11,7 +11,7 @@ export function CategoryFilter({ onFilterChange }: CategoryFilterProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all')
 
   const categories = [
-    { key: 'all', label: 'Tous', emoji: '🏆', count: 40 },
+    { key: 'all', label: 'Tous les influenceurs', emoji: '🏆', count: 40 },
     { key: 'trader', label: 'Traders', emoji: '📈', count: 15 },
     { key: 'analyst', label: 'Analystes', emoji: '🔍', count: 10 },
     { key: 'influencer', label: 'Influenceurs', emoji: '🌟', count: 8 },

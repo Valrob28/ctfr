@@ -40,7 +40,7 @@ export function RefreshButton({ onRefresh }: RefreshButtonProps) {
           : 'bg-solana-purple hover:bg-purple-600 text-white hover:scale-105'
         }
       `}
-      title="Rafraîchir les données Twitter"
+      title="Rafraîchir les photos de profil et derniers tweets"
     >
       <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
       <span>{isRefreshing ? 'Rafraîchissement...' : 'Rafraîchir'}</span>
