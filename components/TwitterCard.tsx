@@ -19,7 +19,13 @@ export function TwitterCard({ handle, refreshKey }: TwitterCardProps) {
     const fetchTwitterData = async () => {
       setLoading(true)
       try {
-        const data = await TwitterService.getTwitterData(handle)
+        // Test direct avec UI-Avatars
+        const avatarUrl = `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
+        const data = {
+          avatar: avatarUrl,
+          lastTweet: `Dernier tweet de @${handle} - Test en cours...`
+        }
+        console.log(`Avatar direct pour @${handle}:`, avatarUrl)
         setTwitterData(data)
       } catch (error) {
         console.error('Erreur lors du chargement des données Twitter:', error)
@@ -54,7 +60,12 @@ export function TwitterCard({ handle, refreshKey }: TwitterCardProps) {
         onError={(e) => {
           // Fallback si l'image ne charge pas
           const target = e.target as HTMLImageElement
-          target.src = `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
+          const fallbackUrl = `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
+          console.log(`Erreur de chargement avatar pour @${handle}, fallback vers:`, fallbackUrl)
+          target.src = fallbackUrl
+        }}
+        onLoad={() => {
+          console.log(`Avatar chargé avec succès pour @${handle}`)
         }}
       />
       <div className="flex-1 min-w-0">

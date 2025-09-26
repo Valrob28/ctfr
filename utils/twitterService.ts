@@ -40,28 +40,10 @@ export class TwitterService {
   }
 
   private static async getAvatar(handle: string): Promise<string> {
-    const sources = [
-      `https://unavatar.io/twitter/${handle}`,
-      `https://avatars.dicebear.com/api/avataaars/${handle}.svg`,
-      `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
-    ]
-
-    for (const source of sources) {
-      try {
-        const response = await fetch(source, { 
-          method: 'HEAD',
-          signal: AbortSignal.timeout(3000) // 3 secondes timeout
-        })
-        if (response.ok) {
-          return source
-        }
-      } catch (error) {
-        continue
-      }
-    }
-
-    // Fallback final
-    return sources[sources.length - 1]
+    // Utiliser directement UI-Avatars qui est fiable
+    const avatarUrl = `https://ui-avatars.com/api/?name=${handle}&background=6366f1&color=fff&size=128&bold=true`
+    console.log(`Avatar généré pour @${handle}:`, avatarUrl)
+    return avatarUrl
   }
 
   private static async getLastTweet(handle: string): Promise<string> {

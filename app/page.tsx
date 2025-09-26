@@ -8,6 +8,7 @@ import { LeaderboardCard } from '@/components/LeaderboardCard'
 import { Header } from '@/components/Header'
 import { CategoryFilter } from '@/components/CategoryFilter'
 import { RefreshButton } from '@/components/RefreshButton'
+import { AvatarTest } from '@/components/AvatarTest'
 import { useTwitterRefresh } from '@/hooks/useTwitterRefresh'
 import { getInfluencerData } from '@/utils/solana'
 import { InfluencerData } from '@/types'
@@ -89,12 +90,13 @@ export default function Home() {
           )}
         </div>
 
-        {!loading && (
-          <div className="flex flex-col items-center space-y-4 mb-8">
-            <CategoryFilter onFilterChange={handleCategoryFilter} />
-            <RefreshButton onRefresh={refreshTwitterData} />
-          </div>
-        )}
+                {!loading && (
+                  <div className="flex flex-col items-center space-y-4 mb-8">
+                    <CategoryFilter onFilterChange={handleCategoryFilter} />
+                    <RefreshButton onRefresh={refreshTwitterData} />
+                    <AvatarTest />
+                  </div>
+                )}
 
         {loading ? (
           <div className="flex justify-center items-center py-20">
