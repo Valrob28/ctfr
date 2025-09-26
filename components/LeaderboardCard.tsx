@@ -8,6 +8,7 @@ import { ProgressBar } from './ProgressBar'
 import { VoteButton } from './VoteButton'
 import { TwitterCard } from './TwitterCard'
 import { voteInfluencer } from '@/utils/solana'
+import { useTwitterAuth } from '@/hooks/useTwitterAuth'
 
 interface LeaderboardCardProps {
   influencer: InfluencerData
@@ -26,6 +27,7 @@ export function LeaderboardCard({
 }: LeaderboardCardProps) {
   const { connection } = useConnection()
   const { signTransaction } = useWallet()
+  const { isAuthenticated, twitterHandle, requireAuth } = useTwitterAuth()
   const [isVoting, setIsVoting] = useState(false)
   const [voteStatus, setVoteStatus] = useState<{
     bestCall: boolean
@@ -43,6 +45,12 @@ export function LeaderboardCard({
       return
     }
 
+    // Vérifier l'authentification Twitter
+    if (!requireAuth()) {
+      alert('Connexion Twitter requise pour voter. Connectez-vous d\'abord avec votre compte Twitter.')
+      return
+    }
+
     setIsVoting(true)
     try {
       await voteInfluencer(
@@ -50,7 +58,8 @@ export function LeaderboardCard({
         publicKey,
         signTransaction,
         influencer.name,
-        category
+        category,
+        twitterHandle // Passer le handle Twitter pour la synchronisation
       )
       
       setVoteStatus(prev => ({ ...prev, [category]: true }))
@@ -103,11 +112,11 @@ export function LeaderboardCard({
           />
           <VoteButton
             onClick={() => handleVote('bestCall')}
-            disabled={!isConnected || isVoting || voteStatus.bestCall}
+            disabled={!isConnected || !isAuthenticated || isVoting || voteStatus.bestCall}
             loading={isVoting}
             variant="success"
           >
-            {voteStatus.bestCall ? 'Voté ✅' : 'Voter'}
+            {!isAuthenticated ? 'Twitter requis' : voteStatus.bestCall ? 'Voté ✅' : 'Voter'}
           </VoteButton>
         </div>
 
@@ -126,11 +135,11 @@ export function LeaderboardCard({
           />
           <VoteButton
             onClick={() => handleVote('worstCall')}
-            disabled={!isConnected || isVoting || voteStatus.worstCall}
+            disabled={!isConnected || !isAuthenticated || isVoting || voteStatus.worstCall}
             loading={isVoting}
             variant="danger"
           >
-            {voteStatus.worstCall ? 'Voté ❌' : 'Voter'}
+            {!isAuthenticated ? 'Twitter requis' : voteStatus.worstCall ? 'Voté ❌' : 'Voter'}
           </VoteButton>
         </div>
 
@@ -149,11 +158,11 @@ export function LeaderboardCard({
           />
           <VoteButton
             onClick={() => handleVote('sma')}
-            disabled={!isConnected || isVoting || voteStatus.sma}
+            disabled={!isConnected || !isAuthenticated || isVoting || voteStatus.sma}
             loading={isVoting}
             variant="warning"
           >
-            {voteStatus.sma ? 'Voté 🤡' : 'Voter'}
+            {!isAuthenticated ? 'Twitter requis' : voteStatus.sma ? 'Voté 🤡' : 'Voter'}
           </VoteButton>
         </div>
       </div>

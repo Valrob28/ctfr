@@ -9,7 +9,10 @@ import { Header } from '@/components/Header'
 import { CategoryFilter } from '@/components/CategoryFilter'
 import { RefreshButton } from '@/components/RefreshButton'
 import { AvatarTest } from '@/components/AvatarTest'
+import { TwitterAuth } from '@/components/TwitterAuth'
+import { VoteSync } from '@/components/VoteSync'
 import { useTwitterRefresh } from '@/hooks/useTwitterRefresh'
+import { useTwitterAuth } from '@/hooks/useTwitterAuth'
 import { getInfluencerData } from '@/utils/solana'
 import { InfluencerData } from '@/types'
 import { FRENCH_CRYPTO_INFLUENCERS } from '@/data/influencers'
@@ -17,6 +20,7 @@ import { FRENCH_CRYPTO_INFLUENCERS } from '@/data/influencers'
 export default function Home() {
   const { connection } = useConnection()
   const { publicKey, connected } = useWallet()
+  const { isAuthenticated, twitterHandle, authenticate } = useTwitterAuth()
   const [influencers, setInfluencers] = useState<InfluencerData[]>([])
   const [loading, setLoading] = useState(true)
   const [filteredInfluencers, setFilteredInfluencers] = useState<InfluencerData[]>([])
@@ -92,6 +96,15 @@ export default function Home() {
 
                 {!loading && (
                   <div className="flex flex-col items-center space-y-4 mb-8">
+                    <TwitterAuth 
+                      onAuthSuccess={authenticate}
+                      isAuthenticated={isAuthenticated}
+                      twitterHandle={twitterHandle}
+                    />
+                    <VoteSync 
+                      twitterHandle={twitterHandle}
+                      isAuthenticated={isAuthenticated}
+                    />
                     <CategoryFilter onFilterChange={handleCategoryFilter} />
                     <RefreshButton onRefresh={refreshTwitterData} />
                     <AvatarTest />

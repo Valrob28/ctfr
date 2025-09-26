@@ -68,7 +68,8 @@ export async function voteInfluencer(
   publicKey: PublicKey,
   signTransaction: WalletContextState['signTransaction'],
   influencerName: string,
-  category: VoteCategory
+  category: VoteCategory,
+  twitterHandle?: string
 ): Promise<void> {
   if (!signTransaction) {
     throw new Error('Wallet non connecté ou signTransaction non disponible')
@@ -123,6 +124,11 @@ export async function voteInfluencer(
     await connection.confirmTransaction(signature)
     
     console.log('Vote enregistré avec succès:', signature)
+    
+    // Log de synchronisation Twitter
+    if (twitterHandle) {
+      console.log(`Vote synchronisé avec Twitter: @${twitterHandle} a voté pour ${influencerName}`)
+    }
   } catch (error) {
     console.error('Erreur lors du vote:', error)
     throw error
