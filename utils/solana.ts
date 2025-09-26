@@ -70,6 +70,10 @@ export async function voteInfluencer(
   influencerName: string,
   category: VoteCategory
 ): Promise<void> {
+  if (!signTransaction) {
+    throw new Error('Wallet non connecté ou signTransaction non disponible')
+  }
+  
   try {
     // Créer la transaction
     const transaction = new Transaction()
